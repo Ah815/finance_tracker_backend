@@ -24,6 +24,10 @@ const cronRoutes = require('./routes/cronRoutes');
 
 const app = express();
 
+// Vercel supplies X-Forwarded-For through its proxy. Trust only that hop so
+// Express (and express-rate-limit) can resolve the client IP safely.
+app.set('trust proxy', process.env.VERCEL ? 1 : false);
+
 app.use(helmet());
 
 // CLIENT_URL can be a single origin or a comma-separated list (handy for
